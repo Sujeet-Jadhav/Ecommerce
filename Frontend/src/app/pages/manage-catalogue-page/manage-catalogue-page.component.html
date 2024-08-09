@@ -1,0 +1,45 @@
+<div class="container">
+    <table class="table align-middle table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Thumbnail</th>
+                <th scope="col">Name</th>
+                <th scope="col">Stock</th>
+                <th scope="col"></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let items of products;let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td class="align-middle"><img src="{{items.image}}" alt="image" class="img-thumbnail rounded-2"
+                        height="120px" width="120px"></td>
+                <td class="align-middle">
+                    <figure>
+                        <blockquote class="blockquote">
+                            <p>{{items.name}}</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer">
+                            Brand : <cite title="Source Title">{{items.brand}}</cite>
+                        </figcaption>
+                        <figcaption class="blockquote-footer">
+                            Category : <cite title="Source Title">{{items.category}}</cite>
+                        </figcaption>
+                        <figcaption class="blockquote-footer">
+                            Group : <cite title="Source Title">{{items.group}}</cite>
+                        </figcaption>
+                        @for(filter of products[i].filter;track filter){
+                        <figcaption class="text-capitalize blockquote-footer">
+                            {{filter.title}} : <cite title="Source Title">{{filter.data}}</cite>
+                        </figcaption>
+                        }
+                    </figure>
+                </td>
+                <td class="align-middle"> {{items.stock}}</td>
+                <td class="align-middle"> <button type="button" class="btn btn-sm btn-primary"
+                        [routerLink]="['/manage-product',items.id]">Manage</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

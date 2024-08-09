@@ -1,0 +1,92 @@
+<div class="container d-flex justify-content-between p-3">
+    <h1>Dashboard</h1>
+    <button type="button" class="btn btn-sm btn-primary m-2" data-bs-toggle="modal" data-bs-target="#productModal">
+        Add Products
+    </button>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10">
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="productModalLabel">Add Products</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                        <div class="group-gap">
+                            <h5 class="mb-3">Add Details</h5>
+                            <div class="mb-3 " formArrayName="features">
+
+                                <div class="card" *ngFor="let item of featuresList.controls; let i = index"
+                                    [formGroupName]="i">
+                                    <div class="card-body">
+                                        <label class="text-muted">Title:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control ms-1" formControlName="title">
+                                        </div>
+                                        <div formArrayName="options">
+                                            <div *ngFor="let option of getOption(i).controls; let j = index"
+                                                [formGroupName]="j">
+                                                <label class="text-muted">Options:</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control ms-1">
+                                                    <button class="btn btn-outline-danger btn-sm" type="button"
+                                                        (click)="removeOption(i, j)">
+                                                        Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button class="btn btn-sm btn-success mt-2 float-end" (click)="addOption(i)">Add
+                                            Options</button>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button type="button" class="btn btn-sm btn-success mb-3 btn-block"
+                                (click)="addFeature()">Add Feature</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10 ">
+
+        <div class="">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control form-control-sm" id="floatingInput"
+                            formControlName="email" placeholder="name@example.com">
+                        <label for="floatingInput">Email address</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea">Comments</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

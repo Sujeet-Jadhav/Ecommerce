@@ -1,0 +1,109 @@
+<div class="row container-fluid my-3 text-center">
+    <h1 class="my-2">Cart Products</h1>
+    <div class="col-lg-8 container">
+        <table class="table align-middle table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Products</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                    <th scope="col"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let items of cartProducts;let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td class="align-middle"><img src="{{items.image}}" alt="image" class="img-thumbnail rounded-2"
+                            height="120px" width="120px"></td>
+                    <td class="align-middle">
+                        <figure>
+                            <blockquote class="blockquote">
+                                <p>{{items.name}}</p>
+                            </blockquote>
+                            <figcaption class="blockquote-footer">
+                                Size : <cite title="Source Title">{{items.size}}</cite>
+                            </figcaption>
+                            @for(filter of cartProducts[i].filter;track filter){
+                            <figcaption class="text-capitalize blockquote-footer">
+                                {{filter.title}} : <cite title="Source Title">{{filter.data}}</cite>
+                            </figcaption>
+                            }
+                        </figure>
+                    </td>
+                    <td class="align-middle">₹ {{cartProducts[i].price}}</td>
+                    <td class="align-middle w-25">
+                        <div class="input-group p-5 align-middle d-flex justify-content-center">
+
+                            <button type="button" class="btn btn-primary" (click)="decrementQuantity(i)"
+                                id="decrementBtn">
+                                -
+                            </button>
+                            <input type="number" class="form-control" id="quantity" name="quantity"
+                                [value]="cartProducts[i].quantity" [(ngModel)]="cartProducts[i].quantity" />
+                            <button type="button" class="btn btn-primary" (click)="incrementQuantity(i)"
+                                id="incrementBtn">
+                                +
+                            </button>
+                        </div>
+                    </td>
+                    <td class="align-middle">₹ {{(cartProducts[i].quantity > 1)?(cartProducts[i].quantity *
+                        cartProducts[i].price):cartProducts[i].price}}</td>
+                    <td class="align-middle"><i class="bi bi-x fs-4" (click)="removeProduct(cartProducts[i].id)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="container m-5" *ngIf="totalQuantity==0">
+            <h1 class="mt-5 mb-3">Your Cart is empty.</h1>
+            <h3 class="mb-3">Add Products to View Cart Products</h3>
+            <button class="btn btn-sm btn-primary px-4 py-2" routerLink="">Add Products</button>
+        </div>
+    </div>
+    <div class="col-lg-3 m-5 container row d-flex justify-content-center">
+        <div class="card p-0 pb-3">
+            <div class="card-header bg-primary-subtle">
+                <h4 class="card-title">Price Details</h4>
+            </div>
+            <div class="card-body">
+
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td scope="col" class="text-start">Products</td>
+                            <td scope="row">{{totalProducts}}</td>
+                        </tr>
+                        <tr>
+                            <td scope="col" class="text-start">Total Quantity</td>
+                            <td>{{totalQuantity}}</td>
+                        </tr>
+                        <tr>
+                            <td scope="col" class="text-start">Total Price</td>
+                            <td>{{totalCartPrice}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="container">
+                <div class="form-check m-3 d-flex justify-content-center">
+                    <input class="form-check-input mx-1" type="checkbox" value="false" id="flexCheckChecked" checked
+                        [(ngModel)]="isAccepted">
+                    <label class="form-check-label" for="flexCheckChecked">
+                        I accept all the terms and conditions.
+                    </label>
+                </div>
+                <div class="d-flex justify-content-evenly">
+                    @if(!isAccepted){
+                    <button class="btn btn-sm btn-secondary" disabled>Checkout</button>
+                    }
+                    @else {
+                    <button class="btn btn-sm btn-success" routerLink="/checkout">Checkout</button>
+                    }
+                    <button class="btn btn-sm btn-primary" routerLink="">Add Products</button>
+                </div>
+            </div>
+        </div>
+    </div>

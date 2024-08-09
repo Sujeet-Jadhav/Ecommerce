@@ -1,0 +1,41 @@
+<div class="container-fluid gradient text-center p-4 mt-1">
+    <h2 class="h2 text-light fw-bold">{{category}}</h2>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-6 col-md-4 col-lg-3" *ngFor="let product of products">
+            <div class="card mb-2" [routerLink]="['/product',product.id]" role="button">
+                @if(product.offer > 0){
+                <div class="position-absolute top-0 start-0 rounded-end-circle bg-danger p-2 z-1">
+                    <span class="text-light">{{product.offer}}%</span>
+                </div>
+                }
+                <div class="position-relative text-center">
+                    <img src={{product.image}} class="card-img-top w-75 " alt="Product Image">
+                    @if(product.stock == 0){
+                    <div class="position-absolute bottom-0 end-0">
+                        <img src="../../../assets/images/sold.png" class="w-50" alt="out of stock">
+                    </div>
+                    }
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title fs-5">{{product.name}}</h5>
+                    <p class="text-secondary fs-6">{{product.brand}}</p>
+                    @if(product.offer > 0){
+                    <div> <span>₹{{product.price-((product.offer/100) *
+                            product.price)}}</span> <span class="text-decoration-line-through text-secondary mx-2">₹{{
+                            product.price}}</span> </div>
+                    <span class="text-success fs-6"><i class="bi bi-percent"></i> Saved Price
+                        ₹{{(product.offer/100) *
+                        product.price}}</span>
+                    }
+                    @else {
+                    <span>₹{{
+                        product.price}}</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,140 @@
+<div class="container-fluid p-5">
+    <h3>Edit Product Details <i class="bi bi-pencil-square"></i></h3>
+    <hr>
+    <form [formGroup]="productDetail" (ngSubmit)="onChange()">
+        <div class="row">
+            <div class="col-lg-2">
+                <img src="../../../assets/images/blank-img.png" class="img-thumbnail img-fluid" alt="blank-img">
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <h3 class="fw-semibold">{{ product.name }}</h3>
+                    <p class="col-md-6">Category : {{product.category}}</p>
+                    <p class="fs-6">{{product.description}}</p>
+                    <label for="size">Sizes:</label>
+                    <div class="col-lg-6">
+
+                        <select name="size" id="size" class="form-control">
+                            <option *ngFor="let size of productDetail.get('sizes')?.value" [value]="size.type">
+                                {{size.type}} (₹ {{size.price || 0}})
+                            </option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6" *ngFor="let item of productDetail.get('features')?.value">
+                        <label for="item"> {{item.title}}
+                        </label>
+                        @if(item.options.length > 1){
+
+                        <select class="form-select" name={{item.title}}>
+                            @for(i of item.options;track i.subLabel){
+                            <option value="i">{{i.subLabel}}</option>
+                            }
+                        </select>
+                        }
+                        @else if(item.options.length == 1){
+                        <span class="ms-2">: {{item.options[0].subLabel || null}}</span>
+                        }
+                    </div>
+                    <div class="col-lg-10">
+                        <pre>{{productDetail.value.description}}</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="size">Sizes:</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <button class="btn btn-sm btn-success float-end" (click)="addSizeOption()">Add Size</button>
+                    </div>
+
+                    <div formArrayName="sizes">
+                        <div class="row" *ngFor="let item of sizeList.controls;let i = index" [formGroupName]="i">
+                            <div class="col-lg-5 mb-1">
+                                <input type="text" class="form-control" id="type" placeholder="Enter title here"
+                                    formControlName="type">
+                            </div>
+                            <div class="col-lg-5 mb-1">
+                                <input type="text" class="form-control" placeholder="Enter price here" id="price"
+                                    formControlName="price">
+                            </div>
+                            <div class="col-lg-10 mb-3">
+                                <textarea class="form-control" placeholder="Enter description here"
+                                    id="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 ">
+                        <!-- <div class="card flex justify-content-center">
+                            <p-toast />
+                            <p-fileUpload mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]"
+                                url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*"
+                                maxFileSize="1000000" (onUpload)="onUpload($event)" />
+                        </div> -->
+                    </div>
+                    <div class="group-gap">
+                        <div class="my-3" formArrayName="features">
+
+                            <div class="card my-3" *ngFor="let item of featuresList.controls; let i = index"
+                                [formGroupName]="i">
+                                <div class="card-body">
+                                    <label class="text-muted">Title:</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control ms-1" formControlName="title">
+                                    </div>
+                                    <div formArrayName="options">
+                                        <div *ngFor="let option of getOption(i).controls; let j = index"
+                                            [formGroupName]="j">
+                                            <label class="text-muted">Options:</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control ms-1" formControlName="subLabel">
+                                                <button class="btn btn-outline-danger btn-sm" type="button"
+                                                    (click)="removeOption(i, j)">
+                                                    Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-sm btn-danger m-2  btn-block float-end"
+                                        (click)="removeFeature(i)">Remove
+                                        Feature</button>
+                                    <button class="btn btn-sm btn-success m-2 float-end" (click)="addOption(i)">Add
+                                        Options</button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="button" class="btn btn-sm btn-success mb-3 btn-block" (click)="addFeature()">Add
+                            Feature</button>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card my-3">
+                            <p-editor formControlName="description">
+                                <ng-template pTemplate="header">
+                                    <span class="ql-formats">
+                                        <button type="button" class="ql-bold" aria-label="Bold"></button>
+                                        <button type="button" class="ql-italic" aria-label="Italic"></button>
+                                        <button type="button" class="ql-underline" aria-label="Underline"></button>
+                                        <button type="button" class="ql-list" value="bullet"
+                                            aria-label="Bullet"></button>
+                                        <button type="button" class="ql-list" value="ordered"
+                                            aria-label="Numbered"></button>
+                                    </span>
+                                </ng-template>
+                            </p-editor>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

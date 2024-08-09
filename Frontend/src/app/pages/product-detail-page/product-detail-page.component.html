@@ -1,0 +1,154 @@
+<!-- message -->
+@if(showMessage){
+<div class="alert alert-success alert-dismissible fade show w-25 position-absolute top-10 end-0 " role="alert">
+    <strong>{{products.name}}</strong> Added to Cart Successfully.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+}
+
+<div class="container">
+    <div class="row m-5">
+        <div class="col-10 col-md-5 col-lg-5 bg-light p-2">
+            <p-image src="{{selectedImage}}" previewImageSrc="{{selectedImage}}" alt="products image"
+                [preview]="true" />
+            <div class="container d-flex justify-contain-evenly m-2">
+                @for(image of products.gallary;track image){
+                <div>
+                    <img src="{{image}}" (click)="selectImage($index) " alt="products Image" role="button"
+                        class="img-thumbnail p-2 w-50 " />
+                </div>
+                }
+            </div>
+        </div>
+        <div class="col-10 col-md-7 col-lg-7 ">
+            <h3 class="fw-semibold">{{ products.name }}</h3>
+            <span>
+                Category : {{products.category}}
+                <ul class="list-inline">
+                    <li class="list-inline-item" *ngFor="let star of fullStars">
+                        <i class="bi bi-star-fill text-warning"></i>
+                    </li>
+                    <li class="list-inline-item" *ngIf="halfStar">
+                        <i class="bi bi-star-half text-warning"></i>
+                    </li>
+                    <li class="list-inline-item" *ngFor="let star of emptyStars">
+                        <i class="bi bi-star text-warning"></i>
+                    </li>
+                    <li class="list-inline-item"> <span
+                            class="bg-dark text-light rounded-2 p-1 m-1 fs-6">{{products.rating}}</span>
+                    </li>
+                </ul>
+            </span>
+
+
+            <span class="fs-6">
+                @if(products.offer > 0){
+                <div>
+                    Price: <span class="h4">
+                        ₹{{((products.quantity > 1)?(products.quantity *
+                        price):price)-((products.offer/100) *
+                        ((products.quantity > 1)?(products.quantity * price):price))}}
+                    </span>
+                    <span class="text-decoration-line-through text-secondary mx-2">
+                        ₹{{(products.quantity > 1)?(products.quantity * price):price}}
+                    </span>
+                    <span class="bg-danger text-light p-2  fs-6 rounded-3">
+                        {{products.offer}}% Off
+                    </span>
+                </div>
+                <span class="text-success fs-6"><i class="bi bi-percent"></i> Saved Price
+                    ₹{{(products.offer/100) *
+                    ((products.quantity > 1)?(products.quantity * price):price)}}
+                </span>
+                }
+                @else {
+                Price:
+                <span class="h4">₹{{(products.quantity > 1)?(products.quantity * price):price}}</span>
+                }
+
+                @if(products.isTaxIncluded){
+                <p class="fs-6">Tax Included</p>
+                }
+
+            </span>
+            <div class="form-group  my-3">
+                <h4>Sizes</h4>
+                <div class="row">
+
+                    @for(filter of products.filter;track filter){
+
+                    <div class="col-lg-4">
+                        <label for="colour" class="text-capitalize">{{filter.title}}:</label>
+                        <select name="colour" id="colour" class="form-control"
+                            (change)="onFilterChange(filter.title,$event)">
+                            @for(option of filter?.data;track option){
+                            <option [value]="option">
+                                {{option}}
+                            </option>
+                            }
+                        </select>
+                    </div>
+
+                    }
+
+                    <div class="col-lg-4">
+                        <label for="size">Sizes:</label>
+                        <select name="size" id="size" class="form-control" [(ngModel)]="selectedSize"
+                            (change)="onSizeChange()">
+                            @for(size of products.sizes;track size){
+                            <option [value]="size.type">
+                                {{size.type}}
+                            </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4 w-25 my-3">
+                        <label for="quantity">Quantity:</label>
+                        <div class="input-group">
+
+                            <button type="button" class="btn btn-primary"
+                                (click)="(products.quantity > 1 ? (products.quantity = products.quantity - 1): products.quantity = 1)"
+                                id="decrementBtn">
+                                -
+                            </button>
+                            <input type="number" class="form-control" id="quantity" name="quantity"
+                                [value]="products.quantity" [(ngModel)]="products.quantity" />
+                            <button type="button" class="btn btn-primary"
+                                (click)="(products.quantity = products.quantity+ 1)" id="incrementBtn">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <h4>Description</h4>
+                    <p class="fs-6">{{products.description}}</p>
+                </div>
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-5 d-grid">
+                        @if(products.stock > 0){
+                        <button class="btn btn-success m-2 ">Buy Now</button>
+                        }
+                        @else {
+                        <button class="btn btn-secondary m-2" disabled>Out of Stock</button>
+                        }
+                    </div>
+                    <div class="col-5 d-grid">
+                        @if(!isInCart){
+                        <button class="btn btn-success m-2 " (click)="addToCart()">Add to
+                            Cart</button>
+                        }
+                        @else{
+                        <button class="btn btn-success m-2 " routerLink="/cart">Go to
+                            Cart</button>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

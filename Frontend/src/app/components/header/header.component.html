@@ -1,0 +1,79 @@
+<div class="d-flex justify-content-evenly bg-primary p-1 bg-primary-subtle fs-6 fw-light">
+    <span><a href="tel:+{{phone}}" class="link-dark link-offset-2 link-underline-opacity-0 "> <i
+                class="bi bi-telephone-fill m-1"></i>{{phone}}</a></span>
+    <span> <a href="mailto:{{email}}" class="link-dark link-offset-2 link-underline-opacity-0 "><i
+                class="bi bi-envelope m-1"></i>{{email}}</a></span>
+    <span><a href='https://www.google.com/maps/place/{{location}}'
+            class="link-dark link-offset-2 link-underline-opacity-0 " target="_blank"><i
+                class="bi bi-geo-alt m-1"></i>{{location}}</a></span>
+</div>
+<header style="font-family: Roboto Mono">
+    <nav class="navbar navbar-expand-lg bg-primary p-1" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand fs-5 my-3 pe-2" href="">{{title}}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                    <button type="button" class="btn-close m-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mr-auto">
+                        <li class="nav-item mx-3 pt-1">
+                            <a class="nav-link active " aria-current="page" routerLink="/manage-catalogue">Manage
+                                Catalogue</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex me-auto w-50 " role="search">
+                        <div class="input-group">
+                            <button class="btn btn-outline-light dropdown-toggle rounded-start-pill" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">Category</button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Separated link</a></li>
+                            </ul>
+                            <input class="form-control" type="search" placeholder="Search for products..."
+                                aria-label="Search">
+                            <button class="btn btn-success rounded-end-pill " type="button">Search</button>
+                        </div>
+                    </form>
+                    <ul class="navbar-nav">
+                        <li class="nav-item mx-3">
+                            <a class="nav-link active" routerLink="/orders" *ngIf="isUserLoggedIn">
+                                My Orders <i class="bi bi-list-task fs-5"></i></a>
+                        </li>
+                        <li class="nav-item mx-3">
+                            <button type="button" class="btn btn-success position-relative" routerLink="/cart">
+                                <i class="bi bi-cart2 fs-5"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{count}}
+                                    <span class="visually-hidden">Cart Items</span>
+                                </span>
+                            </button>
+                        </li>
+                        <li class="nav-item mx-3 pt-1">
+                            <a class="nav-link active cursor-pointer" data-bs-toggle="modal" data-bs-target="#LoginForm"
+                                *ngIf="!isUserLoggedIn">
+                                Login
+                            </a>
+                            <a class="nav-link active cursor-pointer" data-bs-toggle="modal" data-bs-target="#LoginForm"
+                                *ngIf="isUserLoggedIn">
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
